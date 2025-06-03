@@ -1,0 +1,26 @@
+{
+  "name": "apna-network-backend",
+  "version": "1.0.0",
+  "description": "backend application for apna-network",
+  "homepage": "https://github.com/Warriorscoder/apna-network-backend#readme",
+  "bugs": {
+    "url": "https://github.com/Warriorscoder/apna-network-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Warriorscoder/apna-network-backend.git"
+  },
+  "license": "ISC",
+  "author": "aniket,dheeraj",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.15.1"
+  }
+}
