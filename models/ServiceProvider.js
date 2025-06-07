@@ -4,6 +4,7 @@ const serviceProviderSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
   phone: String,
+  role:String,
   password: String,
   location: String,
   skills: [String],
