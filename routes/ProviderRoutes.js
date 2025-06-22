@@ -1,3 +1,4 @@
+
   const express = require('express');
   const router = express.Router();
   const ServiceProvider = require('../models/ServiceProvider');
@@ -61,4 +62,18 @@
   });
 
   module.exports = router;
+const express = require('express');
+
+const ServiceProvider = require('../models/ServiceProvider');
+const { completeProviderSignup }= require('../controller/authController');
+const { createMessage } = require('../controller/authController');
+const { verifyProviderOTP } = require('../controller/authController');
+
+
+
+router.post('/create',  createMessage);
+router.post('/verifyOTP' , verifyProviderOTP);
+router.post('/complete' , completeProviderSignup);
+
+module.exports = router;
 

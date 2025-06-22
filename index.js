@@ -5,9 +5,15 @@ const connectDB = require('./config/connectDB');
 const app = express();
 const userRoutes = require('./routes/UserRoutes');
 const providerRoutes = require('./routes/ProviderRoutes');
-const serviceRoutes = require('./routes/ServiceRoutes');
+
+
 
 const authRoutes = require('./routes/authRoutes');
+
+const AdminRoutes = require('./routes/AdminRoutes');
+const ServiceRoutes = require('./routes/ServiceRoutes');
+
+
 
 
 
@@ -26,9 +32,12 @@ app.get('/', (req, res) => {
 //all the routes
 app.use('/api/users', userRoutes);
 app.use('/api/providers', providerRoutes);
-app.use('/api/services', serviceRoutes);
 
-app.use('/api/auth', authRoutes); 
+app.use('/api/auth', authRoutes);
+app.use('/api/services', ServiceRoutes);
+app.use('/api/admin', AdminRoutes);
+
+
 
 
 

@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const { createMessage} = require('../controller/authController');
+const { verifyUserOTP } = require('../controller/authController');
+const { completeUserSignup } = require('../controller/authController');
+
 
 // CREATE a new user
 router.post('/create', async (req, res) => {
@@ -59,6 +63,24 @@ router.delete('/delete/:id', async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
+
+// //test route
+// // router.post('/create', async (req, res) => {
+// //   try {
+// //     const newUser = new User(req.body);
+// //     const saved = await newUser.save();
+// //     res.status(201).json(saved);
+// //   } catch (err) {
+// //     res.status(400).json({ error: err.message });
+// //   }
+// });
+
+
+router.post('/create',  createMessage);
+router.post('/verifyOTP' , verifyUserOTP);
+router.post('/complete' , completeUserSignup);
+
+
 
 module.exports = router;
   
