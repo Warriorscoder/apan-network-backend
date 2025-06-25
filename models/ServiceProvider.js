@@ -8,7 +8,7 @@ const serviceProviderSchema = new mongoose.Schema({
 
   aadhar_no: { type: String, unique: true, required: true },     
   phone: { type: String, required: true },                       
-
+  role:String,
   village: { type: String },                                     
   panchayat_ward: { type: String },                              
   tehsil: { type: String },                                     
