@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 
 
-
 module.exports=(req,res,next)=>{
     const authHeader = req.headers.authorization
    if(!authHeader || !authHeader.startswith("Bearer ")){
@@ -16,7 +15,13 @@ module.exports=(req,res,next)=>{
           next()
     } catch (error) {
           res.status(401).json({ success: false, message: "Invalid token" });``
+
         
+    }
+   }
+
+
+
     }
    }
 
