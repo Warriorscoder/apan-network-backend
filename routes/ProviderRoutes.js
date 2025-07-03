@@ -14,15 +14,24 @@ router.post('/verifyOTP', verifyOTP);
 router.post('/complete', completeSignup);
 
 // CRUD Routes
-router.post('/provider', async (req, res) => {
+router.post('/multi-provider', async (req, res) => {
   try {
-    const serviceProvider = new ServiceProvider(req.body);
-    const savedProvider = await serviceProvider.save();
-    res.status(201).json({ success: true, savedProvider });
+    const providersData = req.body;
+
+    if (!Array.isArray(providersData) || providersData.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Request body must be a non-empty array of provider objects.',
+      });
+    }
+
+    const savedProviders = await ServiceProvider.insertMany(providersData);
+    res.status(201).json({ success: true, data: savedProviders });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
   }
 });
+
 
 router.get('/provider', async (req, res) => {
   try {
@@ -42,6 +51,25 @@ router.get('/provider/:id', async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
+
+// providers by id multiple 
+
+router.post('/multi-by-id', async (req, res) => {
+  try {
+    const { ids } = req.body;
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ success: false, message: 'Please provide an array of provider IDs' });
+    }
+
+    const providers = await ServiceProvider.find({ _id: { $in: ids } });
+
+    res.json({ success: true, providers });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 
 router.put('/provider/:id', async (req, res) => {
   try {

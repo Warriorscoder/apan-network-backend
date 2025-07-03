@@ -2,18 +2,13 @@ const mongoose = require('mongoose');
 
 const serviceProviderSchema = new mongoose.Schema({
 
-
   name: String,
   email: { type: String, unique: true },
   phone: String,
-  role:String,
   password: String,
   location: String,
   skills: [String],
   experience: Number,
-
-                                   
-
   aadhar_no: { type: String, unique: true, required: true },     
   phone: { type: String, required: true },                       
   role:String,

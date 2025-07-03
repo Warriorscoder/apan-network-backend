@@ -13,6 +13,25 @@ router.post('/create', async (req, res) => {
   }
 });
 
+// CREATE multiple services
+router.post('/create-multiple', async (req, res) => {
+  try {
+    const servicesData = req.body;
+
+    if (!Array.isArray(servicesData) || servicesData.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Request body must be a non-empty array of service objects.',
+      });
+    }
+
+    const savedServices = await Service.insertMany(servicesData);
+    res.status(201).json({ success: true, data: savedServices });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+
 // READ all services
 router.get('/', async (req, res) => {
   try {

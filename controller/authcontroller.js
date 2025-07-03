@@ -3,6 +3,11 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const VERIFY_SERVICE_SID = process.env.TWILIO_VERIFY_SERVICE_SID;
 const client = twilio(accountSid, authToken);
+console.log("all env variables:", {
+  accountSid, 
+  authToken,
+  VERIFY_SERVICE_SID,
+});
 
 const User = require("../models/User");
 const ServiceProvider = require("../models/ServiceProvider");
@@ -12,19 +17,20 @@ const JsonWebTokenError = require("jsonwebtoken");
 exports.createMessage = async (req, res) => {
   console.log(accountSid, authToken);
 
-  const { phone } = req.body;
-  console.log("Phone number received:", phone);
+  const { identifier } = req.body;
+  console.log("identifier number received:", identifier);
   const otp = Math.floor(100000 + Math.random() * 900000);
 
   try {
+    // console.log("service sid:", process.env.TWILIO_VERIFY_SERVICE_SID);
     const verification = await client.verify.v2
       .services(process.env.TWILIO_VERIFY_SERVICE_SID)
       .verifications.create({
-        to: `+91${phone}`,
+        to: `+91${identifier}`,
         channel: "sms",
       });
 
-    console.log(`Sent verification: '${verification.sid}'`);
+    // console.log(`Sent verification: '${verification.sid}'`);
     res.status(200).json({
       success: true,
       message: "Message sent successfully",
@@ -40,12 +46,12 @@ exports.createMessage = async (req, res) => {
 };
 
 exports.verifyOTP = async (req, res) => {
-  const { phone, otp , role } = req.body;
+  const { identifier, otp , role } = req.body;
   try {
     const check = await client.verify.v2
       .services(VERIFY_SERVICE_SID)
       .verificationChecks.create({
-        to: `+91${phone}`,
+        to: `+91${identifier}`,
         code: otp,
       });
         //  if(check.status ==="approved")
@@ -60,10 +66,10 @@ exports.verifyOTP = async (req, res) => {
          const model = role === "provider" ? ServiceProvider : User;
          console.log(model);
 
-      const user = await model.findOne({phone});
+      const user = await model.findOne({identifier});
       if (user){
         const token = jwt.sign(
-          { id: user._id, role: user.role },
+          { id: user._id, name: user.name, email: user.email },
           process.env.JWT_SECRET,
           { expiresIn: "7d" }
         );
@@ -82,7 +88,7 @@ exports.verifyOTP = async (req, res) => {
         success: true,
         newUser: true,
         message: "OTP verified. Please complete signup.",
-        phone: `+91${phone}`,
+        identifier: `+91${identifier}`,
       });
     }
     }
@@ -101,18 +107,18 @@ exports.verifyOTP = async (req, res) => {
 };
 
 exports.completeSignup = async (req, res) => {
-  const { phone, name, role, email,location,skills,experience,availability} = req.body;
-  console.log( { phone, name, role, email,location,skills,experience,availability} );
+  const { identifier, name, role, email,location,skills,experience,availability} = req.body;
+  console.log( { identifier, name, role, email,location,skills,experience,availability} );
 
    const model = role === "provider" ? ServiceProvider : User;
   try {
-    const existing = await model.findOne({ phone: `${phone}` });
+    const existing = await model.findOne({ identifier: `${identifier}` });
     console.log("Existing user:", existing);
     if (existing) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const newUser= new model({phone, name, role, email,location,skills,experience,availability});
+    const newUser= new model({identifier, name, role, email,location,skills,experience,availability});
     await newUser.save();
 
     const token = jwt.sign(

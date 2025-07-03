@@ -6,7 +6,7 @@ const serviceSchema = new mongoose.Schema({
   category: String,
   description: String,
   tags: [String],
-  experience_level: String,
+  experience_level: Number,
   contact: String,
   images: [String],
   created_at: { type: Date, default: Date.now },
