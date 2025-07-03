@@ -19,8 +19,8 @@ app.use(cors({
 
 
 
-const AdminRoutes = require('./routes/AdminRoutes');
-const ServiceRoutes = require('./routes/ServiceRoutes');
+const adminRoutes = require('./routes/AdminRoutes');
+const serviceRoutes = require('./routes/ServiceRoutes');
 
 
 
@@ -43,8 +43,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/providers', providerRoutes);
 
 
-app.use('/api/services', ServiceRoutes);
-app.use('/api/admin', AdminRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/admin', adminRoutes);
 
 
 

@@ -18,7 +18,7 @@ const { completeUserSignup } = require('../controller/authController');
 // });
 
 // READ all users
-router.get('/', async (req, res) => {
+router.get('/createUser', async (req, res) => {
   try {
     const users = await User.find();
     res.json({ success: true, data: users });
