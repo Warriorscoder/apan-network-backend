@@ -2,11 +2,13 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const { createMessage} = require('../controller/authController');
+
 const { verifyUserOTP } = require('../controller/authController');
 const { completeUserSignup } = require('../controller/authController');
 
 
 // CREATE a new user
+
 // router.post('/create', async (req, res) => {
 //   try {
 //     const user = new User(req.body);
@@ -16,6 +18,8 @@ const { completeUserSignup } = require('../controller/authController');
 //     res.status(400).json({ success: false, message: err.message });
 //   }
 // });
+
+
 
 // READ all users
 router.get('/createUser', async (req, res) => {
@@ -28,7 +32,7 @@ router.get('/createUser', async (req, res) => {
 });
 
 // READ single user by ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res) => { 
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
@@ -74,7 +78,6 @@ router.delete('/delete/:id', async (req, res) => {
 // //     res.status(400).json({ error: err.message });
 // //   }
 // });
-
 
 router.post('/create',  createMessage);
 router.post('/verifyOTP' , verifyUserOTP);
