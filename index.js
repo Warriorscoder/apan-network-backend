@@ -1,11 +1,38 @@
 const express = require('express');
 const dotenv = require('dotenv');
+
+dotenv.config({path: './config/.env'});
+const connectDB = require('./config/connectDB');
+const app = express();
+const userRoutes = require('./routes/UserRoutes');
+const providerRoutes = require('./routes/ProviderRoutes');
+
 const cors = require('cors');
 
-dotenv.config({ path: './config/.env' });
+
 
 const connectDB = require('./config/connectDB');
 const app = express();
+
+
+app.use(cors({
+    origin: '*', // Allow all origins, you can specify specific origins if needed
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+}));
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Route imports
 const userRoutes = require('./routes/UserRoutes'); 
@@ -17,10 +44,11 @@ const reviewRoutes = require('./routes/ReviewsRoutes');
 const complaintRoutes = require('./routes/ComplaintRoutes');
 
 // Connect to DB
+
 connectDB();
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+
 app.use(express.json());
 
 // Routes
@@ -30,11 +58,20 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', userRoutes);
 app.use('/api/providers', providerRoutes);
+
+
+
+ 
+
+
+
+=======
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/complaints', complaintRoutes);
+
 
 // OTP (for demonstration)
 const otp = Math.floor(100000 + Math.random() * 900000);
