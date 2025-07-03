@@ -52,8 +52,8 @@ exports.forgotPassword= async (req,res) => {
 
 }
 
-exports.resetPassword = async (req , res) => {
-  const { phone, newPassword , otp } = req.body;
+exports.verifyResetOTP = async (req , res) => {
+  const { phone , otp } = req.body;
 
   try {
         const check = await client.verify.v2
@@ -63,8 +63,50 @@ exports.resetPassword = async (req , res) => {
         code: otp,
       });
 
-  if (check.status === "approved") {
-    const admin = await Admin.findOne({ phone });
+  if (check.status === "approved") 
+  {
+   
+
+  res.status(200).json({
+    success: true,  
+    message: "ResetOTP verified successfully",
+  });
+    
+}
+else{
+  return res.status(400).json({
+    success: false,
+    message: "Invalid ResetOTP",
+  });
+}
+
+   
+
+
+  
+ 
+  
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to verify ResetOTP",
+      error: error.message,
+    });
+    
+  }
+
+
+
+  
+}
+
+
+
+exports.resetPassword = async (req , res) => {
+  const { newPassword , phone } = req.body;
+
+  try {
+     const admin = await Admin.findOne({ phone });
     if (!admin) {
       return res.status(404).json({ message: "Admin not found" });
     }
@@ -72,18 +114,17 @@ exports.resetPassword = async (req , res) => {
    admin.password = hashedPassword;
     await admin.save(); 
 
+    res.status(200).json({
 
-    return res.status(200).json({
       success: true,
       message: "Password reset successfully",
-    });
-
-   
+    })
 
 
+        
   }
   
-  } catch (error) {
+   catch (error) {
     return res.status(500).json({
       success: false,
       message: "Failed to reset password",
@@ -96,5 +137,8 @@ exports.resetPassword = async (req , res) => {
 
   
 }
+
+
+
 
 

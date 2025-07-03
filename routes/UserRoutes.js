@@ -7,15 +7,15 @@ const { completeUserSignup } = require('../controller/authController');
 
 
 // CREATE a new user
-router.post('/create', async (req, res) => {
-  try {
-    const user = new User(req.body);
-    const savedUser = await user.save();
-    res.status(201).json({ success: true, data: savedUser });
-  } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
-  }
-});
+// router.post('/create', async (req, res) => {
+//   try {
+//     const user = new User(req.body);
+//     const savedUser = await user.save();
+//     res.status(201).json({ success: true, data: savedUser });
+//   } catch (err) {
+//     res.status(400).json({ success: false, message: err.message });
+//   }
+// });
 
 // READ all users
 router.get('/', async (req, res) => {

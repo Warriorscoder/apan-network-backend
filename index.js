@@ -5,10 +5,19 @@ const connectDB = require('./config/connectDB');
 const app = express();
 const userRoutes = require('./routes/UserRoutes');
 const providerRoutes = require('./routes/ProviderRoutes');
+const cors = require('cors');
 
 
 
-const authRoutes = require('./routes/authRoutes');
+app.use(cors({
+    origin: '*', // Allow all origins, you can specify specific origins if needed
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+}));
+
+
+
+
 
 const AdminRoutes = require('./routes/AdminRoutes');
 const ServiceRoutes = require('./routes/ServiceRoutes');
@@ -33,7 +42,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/providers', providerRoutes);
 
-app.use('/api/auth', authRoutes);
+
 app.use('/api/services', ServiceRoutes);
 app.use('/api/admin', AdminRoutes);
 
