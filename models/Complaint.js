@@ -13,7 +13,7 @@ const complaintSchema = new mongoose.Schema({
   },
   service_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'EmploymentService', // e.g., job listing or skill training
+    ref: 'EmploymentService',
     required: true
   },
   title: {
@@ -29,12 +29,12 @@ const complaintSchema = new mongoose.Schema({
   },
   location: {
     type: String,
-    required: false, // optional: useful for rural targeting
+    required: false, 
     trim: true
   },
   contact_info: {
     type: String,
-    required: false, // optional: can store a phone/email if needed for follow-up
+    required: false, 
   },
   status: {
     type: String,
@@ -54,7 +54,7 @@ const complaintSchema = new mongoose.Schema({
   },
   attachments: [
     {
-      url: String,  // e.g., image/pdf links
+      url: String, 
       uploaded_at: {
         type: Date,
         default: Date.now

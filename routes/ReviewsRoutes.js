@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Reviews = require('../models/Reviews');
 
-// CREATE a new review
 router.post('/create', async (req, res) => {
   try {
     const review = new Reviews(req.body);
@@ -13,7 +12,6 @@ router.post('/create', async (req, res) => {
   }
 });
 
-// READ all reviews
 router.get('/', async (req, res) => {
   try {
     const reviews = await Reviews.find();

@@ -1,4 +1,4 @@
-// adminController.js
+
 const Admin = require('../models/Admin');
 const twilio = require('twilio');
 const VERIFY_SERVICE_SID = process.env.TWILIO_VERIFY_SERVICE_SID;
@@ -6,7 +6,7 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = twilio(accountSid, authToken);
 const bcrypt = require('bcrypt');
-const { createMessage } = require('./authController');
+const { createMessage } = require('./authcontroller');
 
 exports.adminLogin = async (req, res) => {
   const { phone, password } = req.body;

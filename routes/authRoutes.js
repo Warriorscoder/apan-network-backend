@@ -1,7 +1,7 @@
 const exprss= require('express');
 const router = exprss.Router();
 const protect = require('../middleware/authMiddleware');
-const { verifyOTP, createMessage, completeSignup } = require('../controller/Authcontroller');
+const { verifyOTP, createMessage, completeSignup } = require('../controller/authcontroller');
 
 
 router.post("/sendOTP",createMessage)

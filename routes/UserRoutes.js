@@ -5,11 +5,8 @@ const {
   createMessage,
   verifyOTP,
   completeSignup
-} = require('../controller/authController');
+} = require('../controller/authcontroller');
 
-
-
-// CREATE a new user
 router.post('/create', async (req, res) => {
   try {
     const user = new User(req.body);

@@ -6,14 +6,12 @@ const {
   completeSignup,
   createMessage,
   verifyOTP,
-} = require('../controller/authController');
+} = require('../controller/authcontroller');
 
-// Twilio Auth Routes
 router.post('/create', createMessage);
 router.post('/verifyOTP', verifyOTP);
 router.post('/complete', completeSignup);
 
-// CRUD Routes
 router.post('/provider', async (req, res) => {
   try {
     const serviceProvider = new ServiceProvider(req.body);

@@ -13,10 +13,14 @@ router.post('/create', async (req, res) => {
   }
 });
 
-// READ all services
+// READ all services (optionally filter by status)
 router.get('/', async (req, res) => {
   try {
-    const services = await Service.find();
+    const filter = {};
+    if (req.query.status) {
+      filter.status = req.query.status;
+    }
+    const services = await Service.find(filter);
     res.json({ success: true, data: services });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
@@ -47,7 +51,6 @@ router.get('/by_provider_id/:provider_id', async (req, res) => {
   }
 });
 
-
 // UPDATE service by ID
 router.put('/update/:id', async (req, res) => {
   try {
@@ -69,6 +72,36 @@ router.delete('/delete/:id', async (req, res) => {
     const deletedService = await Service.findByIdAndDelete(req.params.id);
     if (!deletedService) return res.status(404).json({ success: false, message: 'Service not found' });
     res.json({ success: true, message: 'Service deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// APPROVE a service by ID
+router.patch('/approve/:id', async (req, res) => {
+  try {
+    const approvedService = await Service.findByIdAndUpdate(
+      req.params.id,
+      { status: 'approved', updated_at: new Date() },
+      { new: true }
+    );
+    if (!approvedService) return res.status(404).json({ success: false, message: 'Service not found' });
+    res.json({ success: true, data: approvedService });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// REJECT a service by ID
+router.patch('/reject/:id', async (req, res) => {
+  try {
+    const rejectedService = await Service.findByIdAndUpdate(
+      req.params.id,
+      { status: 'rejected', updated_at: new Date() },
+      { new: true }
+    );
+    if (!rejectedService) return res.status(404).json({ success: false, message: 'Service not found' });
+    res.json({ success: true, data: rejectedService });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Complaint = require('../models/Complaint');
 
-// CREATE - New complaint
 router.post('/create', async (req, res) => {
   try {
     const complaint = new Complaint(req.body);
@@ -13,7 +12,6 @@ router.post('/create', async (req, res) => {
   }
 });
 
-// READ - All complaints
 router.get('/', async (req, res) => {
   try {
     const complaints = await Complaint.find()
@@ -22,8 +20,6 @@ router.get('/', async (req, res) => {
     res.status(500).json({ success: false, error: err.message });
   }
 });
-
-// READ - Single complaint by ID
 router.get('/:id', async (req, res) => {
   try {
     const complaint = await Complaint.findById(req.params.id)
@@ -36,7 +32,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// GET complaints by user_id
 router.get('/userid/:userId', async (req, res) => {
   try {
     const complaints = await Complaint.find({ user_id: req.params.userId });
@@ -49,7 +44,6 @@ router.get('/userid/:userId', async (req, res) => {
   }
 });
 
-// GET complaints by provider_id
 router.get('/providerid/:providerId', async (req, res) => {
   try {
     const complaints = await Complaint.find({ provider_id: req.params.providerId });
@@ -62,7 +56,6 @@ router.get('/providerid/:providerId', async (req, res) => {
   }
 });
 
-// GET complaints by service_id
 router.get('/serviceid/:serviceId', async (req, res) => {
   try {
     const complaints = await Complaint.find({ service_id: req.params.serviceId });
@@ -75,7 +68,6 @@ router.get('/serviceid/:serviceId', async (req, res) => {
   }
 });
 
-// UPDATE - Complaint by ID
 router.put('update/:id', async (req, res) => {
   try {
     const complaint = await Complaint.findByIdAndUpdate(
@@ -92,7 +84,6 @@ router.put('update/:id', async (req, res) => {
   }
 });
 
-// DELETE - Complaint by ID
 router.delete('delete/:id', async (req, res) => {
   try {
     const complaint = await Complaint.findByIdAndDelete(req.params.id);

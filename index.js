@@ -1,47 +1,52 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const connectDB = require("./config/connectdb");
 
-dotenv.config({ path: './config/.env' });
+dotenv.config({ path: "./config/.env" }); // Load env variables
 
-const connectDB = require('./config/connectDB');
 const app = express();
 
-// Route imports
-const userRoutes = require('./routes/UserRoutes'); 
-const providerRoutes = require('./routes/ProviderRoutes');
-const authRoutes = require('./routes/authRoutes');
-const adminRoutes = require('./routes/AdminRoutes');
-const serviceRoutes = require('./routes/ServiceRoutes');
-const reviewRoutes = require('./routes/ReviewsRoutes');
-const complaintRoutes = require('./routes/ComplaintRoutes');
-
-// Connect to DB
-connectDB();
-
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors());
 app.use(express.json());
 
-// Routes
-app.get('/', (req, res) => {
-  res.send('API is running...');
+// Connect to MongoDB
+connectDB();
+
+app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.originalUrl}`);
+  next();
 });
 
-app.use('/api/users', userRoutes);
-app.use('/api/providers', providerRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/services', serviceRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/reviews', reviewRoutes);
-app.use('/api/complaints', complaintRoutes);
+// Routes
+app.use("/api/users", require("./routes/UserRoutes"));
+app.use("/api/providers", require("./routes/ProviderRoutes"));
+app.use("/api/services", require("./routes/ServiceRoutes"));
+app.use("/api/complaints", require("./routes/ComplaintRoutes"));
+app.use("/api/blogs", require("./routes/BlogRoutes"));
+app.use("/api/newsletter", require("./routes/NewsletterRoutes"));
+app.use("/api/success", require("./routes/SuccessStoryRoutes"));
+app.use("/api/categories", require("./routes/CategoryRoutes"));
+app.use("/api/dashboard", require("./routes/DashboardRoutes"));
+app.use("/api/reviews", require("./routes/ReviewsRoutes"));
+app.use("/api/activity", require("./routes/ActivityRoutes"));
+app.use("/api/notifications", require("./routes/notificationRoutes"));
+app.use("/api/stats", require("./routes/StatsRoutes"));
 
-// OTP (for demonstration)
-const otp = Math.floor(100000 + Math.random() * 900000);
-console.log(`Your OTP is: ${otp}`); // In production, send via email/SMS
+app.get("/", (req, res) => {
+  res.send("api is running on port 8000");
+});
 
-// Server listen
-const PORT = process.env.PORT || 5000;
+
+// 404 Handler for unknown routes
+app.use((req, res) => {
+  res.status(404).json({ error: "API route not found" });
+});
+
+// Server start
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
