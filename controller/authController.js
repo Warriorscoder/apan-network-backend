@@ -231,7 +231,11 @@ exports.verifyAdminOTP = async (req,res) => {
           success: true,
           message: "Login successful",
           token,
-          user,
+          admin: {
+             _id: user._id,
+             name: user.name,
+             phone: user.phone,
+  }
         });
       }
 

@@ -6,6 +6,7 @@ const connectDB = require("./config/connectdb");
 dotenv.config({ path: "./config/.env" });
 
 const app = express();
+const PORT = process.env.PORT || 8000; // ✅ Move this up
 
 // Connect to MongoDB
 connectDB();
@@ -41,7 +42,7 @@ app.use("/api/stats", require("./routes/StatsRoutes"));
 app.use("/api/admin", require("./routes/AdminRoutes")); 
 app.use("/api/service-requests", require("./routes/ServiceRequestRoutes"));
 
-// Health check route
+// Health check
 app.get("/", (req, res) => {
   res.send(`API is running on port ${PORT}`);
 });
@@ -52,7 +53,6 @@ app.use((req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(` Server is running on port ${PORT}`);
 });
