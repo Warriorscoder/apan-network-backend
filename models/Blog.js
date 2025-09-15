@@ -10,7 +10,7 @@ const blogSchema = new mongoose.Schema({
 
  
   tags: { type: [String], default: [] },
-  status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
+  // status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
   featured: { type: Boolean, default: false }
 }, { timestamps: true });
 

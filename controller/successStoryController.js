@@ -2,9 +2,7 @@ const SuccessStory = require('../models/SuccessStory');
 
 exports.getAllSuccessStories = async (req, res) => {
   try {
-    const { status } = req.query;
-    const filter = status && status !== 'all' ? { status } : {};
-    const stories = await SuccessStory.find(filter);
+    const stories = await SuccessStory.find();
     res.json({ success: true, data: stories });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });

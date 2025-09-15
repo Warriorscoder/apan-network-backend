@@ -22,11 +22,11 @@ const successStorySchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  status: {
-    type: String,
-    enum: ['pending', 'approved', 'rejected'],
-    default: 'pending',
-  },
+  // status: {
+  //   type: String,
+  //   enum: ['pending', 'approved', 'rejected'],
+  //   default: 'pending',
+  // },
   content: {
     type: String,
     required: true,

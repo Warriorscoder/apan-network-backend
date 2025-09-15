@@ -10,6 +10,7 @@ const SuccessStory = require('../models/SuccessStory');
 const Blog = require('../models/Blog');
 const Newsletter = require('../models/Newsletter');
 const { verifyAdminToken } = require('../middleware/authMiddleware');
+const Category = require('../models/Category');
 
 router.get('/',verifyAdminToken, async (req, res) => {
   try {
@@ -28,13 +29,13 @@ router.get('/',verifyAdminToken, async (req, res) => {
     ] = await Promise.all([
       User.countDocuments(),
       Provider.countDocuments(),
+      Category.countDocuments(),
       Service.countDocuments(),
-      Service.countDocuments({ status: 'Pending' }),
       Complaint.countDocuments(),
       Complaint.countDocuments({ status: 'Resolved' }),
       Review.countDocuments(),
-      SuccessStory.countDocuments({ status: 'approved' }),
-      SuccessStory.countDocuments({ status: 'pending' }),
+      SuccessStory.countDocuments(),
+      SuccessStory.countDocuments(),
       Blog.countDocuments(),
       Newsletter.countDocuments()
     ]);
