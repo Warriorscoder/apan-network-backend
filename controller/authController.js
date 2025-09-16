@@ -73,7 +73,7 @@ exports.verifyProviderOTP = async (req, res) => {
       const provider = await ServiceProvider.findOne({phone});
       if (provider){
         const token = jwt.sign(
-          { id: provider._id, role:"provider" , name: provider.name},
+          { id: provider._id, role:"provider" , name: provider.name, phone:phone, email:provider.email},
           process.env.JWT_SECRET,
           { expiresIn: "7d" }
         );
@@ -145,7 +145,7 @@ exports.verifyUserOTP = async (req, res) => {
       const user = await User.findOne({phone});
       if (user){
         const token = jwt.sign(
-          { id: user._id, role:"user"  , name: user.name},
+          { id: user._id, role:"user"  , name: user.name, phone:phone, email:user.email},
           process.env.JWT_SECRET,
           { expiresIn: "7d" }
         );
@@ -338,7 +338,7 @@ exports.completeProviderSignup = async (req, res) => {
 
     const token = jwt.sign(
 
-      { id: newUser._id, role:"provider", name: newUser.name },
+      { id: newUser._id, role:"provider", name: newUser.name, phone:phone, email:email  },
 
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
@@ -381,7 +381,7 @@ exports.completeUserSignup = async (req, res) => {
 
     const token = jwt.sign(
 
-      { id: newUser._id, role:"user" , name: newUser.name },
+      { id: newUser._id, role:"user" , name: newUser.name, phone:phone, email:email },
 
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
