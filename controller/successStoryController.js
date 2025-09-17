@@ -1,8 +1,47 @@
 const SuccessStory = require('../models/SuccessStory');
 
+exports.addSuccessStory = async (req, res) => {
+  try {
+    const {
+      title,
+      user,
+      provider,
+      date,
+      content,
+      tags = [],
+      images = []
+    } = req.body;
+
+    if (!title || !content || !user || !provider || !date) {
+      return res.status(400).json({ success: false, message: 'Missing required fields.' });
+    }
+
+    const story = await SuccessStory.create({
+      title,
+      user,
+      provider,
+      date,
+      content,
+      tags,
+      images,
+      status: 'pending'
+    });
+
+    res.json({
+      success: true,
+      message: 'Success story submitted and is pending approval.',
+      data: story
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 exports.getAllSuccessStories = async (req, res) => {
   try {
-    const stories = await SuccessStory.find();
+    const filter = {};
+    if (req.query.status) filter.status = req.query.status; // ?status=approved
+    const stories = await SuccessStory.find(filter).sort({ createdAt: -1 });
     res.json({ success: true, data: stories });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
