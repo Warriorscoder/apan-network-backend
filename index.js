@@ -107,6 +107,7 @@ app.use("/api/admin", require("./routes/AdminRoutes"));
 app.use("/api/service-requests", require("./routes/ServiceRequestRoutes"));
 app.use("/api/notify", require("./routes/Notify"))
 app.use("/api/contact", require("./routes/ContactRoutes")) 
+app.use("/api/payment", require("./routes/PaymentRoutes"))
 // Health check
 app.get("/", (req, res) => {
   res.send(`API is running on port ${PORT}`);

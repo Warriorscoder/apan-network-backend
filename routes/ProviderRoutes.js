@@ -35,6 +35,29 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+//Checks if a service provider's email is unique
+router.post('/check-email', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email is required' });
+    }
+
+    const provider = await ServiceProvider.findOne({ email: email });
+
+    if (provider) {
+      // If a provider is found, the email is not unique
+      res.json({ success: true, isUnique: false, message: 'Email is already in use.' });
+    } else {
+      // If no provider is found, the email is unique
+      res.json({ success: true, isUnique: true, message: 'Email is available.' });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // UPDATE a ServiceProvider by ID
 router.put('/update/:id', async (req, res) => {
   try {
